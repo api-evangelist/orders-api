@@ -1,0 +1,722 @@
+openapi: 3.1.0
+info:
+
+  title: Orders API
+  description: |
+    This is a template APIs.json for a orders API, to be used in storytelling, training, and knowledge bases.
+  
+  version: 0.1.0
+
+  contact:
+    name: API Evangelist
+    url: https://apievangelist.com
+    email: info@apievangelist.com
+
+  termsOfService: http://example.com/terms/
+
+  license: 
+    name: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+    identifier: CC-BY-NC-SA-4.0
+    url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en
+
+externalDocs:
+  description: Orders API Landing Page
+  url: http://example.com/orders
+
+servers:
+  - url: https://api.example.com
+    description: Production
+
+tags:
+
+  - name: Orders
+    description: | 
+      Placing and managing of orders placed for products.
+
+paths:
+
+  /orders:
+    get:
+      operationId: getOrders
+      summary: Retrieves Orders
+      description: Returns a list of all orders for the authenticated user.
+      security:
+        - apiKeys: []
+      tags:
+        - Orders
+      responses:
+        '200':
+          description: A list of orders
+          headers:
+            RateLimit:
+              $ref: '#/components/headers/RateLimit'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WrapperResponseCollection'
+              examples:
+                OrderCollection:
+                  $ref: '#/components/examples/OrderCollection'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/WrapperResponseCollection'
+              examples:
+                OrderCollection:
+                  $ref: '#/components/examples/OrderCollection'                 
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      operationId: createOrder
+      summary: Create Order
+      description: Creating a new order for sending to a recipient.
+      tags:
+        - Orders
+      security:
+        - apiKeys: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+            examples:
+              Order:
+                $ref: '#/components/examples/Order'                           
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Order'
+            examples:
+              Order:
+                $ref: '#/components/examples/Order'            
+      responses:
+        '201':
+          description: Order Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WrapperResponseObject'
+              examples:
+                SingleOrder:
+                  $ref: '#/components/examples/SingleOrder'                    
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/WrapperResponseObject'
+              examples:
+                SingleOrder:
+                  $ref: '#/components/examples/SingleOrder'        
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'          
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  
+  /orders/{orderId}:
+    parameters:
+      - $ref: '#/components/parameters/OrderId'
+    get:
+      summary: Retrieve Order
+      description: Returns the details of a specific order.
+      operationId: getOrder
+      tags:
+        - Orders
+      security:
+        - apiKeys: []        
+      responses:
+        '200':
+          description: Order Details
+          headers:
+            RateLimit:
+              $ref: '#/components/headers/RateLimit'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WrapperResponseObject'
+              examples:
+                SingleOrder:
+                  $ref: '#/components/examples/SingleOrder'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/WrapperResponseObject'
+              examples:
+                SingleOrder:
+                  $ref: '#/components/examples/SingleOrder'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    put:
+      summary: Update Order
+      description: Updates a single order.
+      operationId: updateOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+            examples:
+              Order:
+                $ref: '#/components/examples/Order'                   
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Order'  
+            examples:
+              Order:
+                $ref: '#/components/examples/Order'                       
+      security:
+        - apiKeys: []
+      tags:
+        - Orders
+      responses:
+        '204':
+          description: Order Updated
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    delete:
+      summary: Delete Order
+      description: Deletes a order.
+      operationId: deleteOrder
+      security:
+        - apiKeys: []
+      tags:
+        - Orders
+      responses:
+        '204':
+          description: Order Deleted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /orders/{orderId}/cancle:
+
+    parameters:
+      - $ref: '#/components/parameters/OrderId'
+
+    put:
+      summary: Cancel Order
+      description: Cancels a single order.
+      operationId: sendOrder    
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+            examples:
+              Order:
+                $ref: '#/components/examples/Order'                   
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Order'  
+            examples:
+              Order:
+                $ref: '#/components/examples/Order'        
+      security:
+        - apiKeys: []
+      tags:
+        - Orders
+      responses:
+        '204':
+          description: Order Sent
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'          
+
+components:
+
+  examples:
+
+    OrderCollection:
+      value:
+        meta:
+          page: 1
+          pageSize: 10
+          totalPages: 2
+        data:                    
+          - id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+            sender: Jane Doe
+            recipient: John Doe
+            subjectOf: Meeting Later
+            text: Please meet me at the market.
+            dateSent: '2018-04-25T18:00:30+01:00'
+            dateReceived: '2018-04-25T18:00:30+01:00'
+        links:
+          self: https://api.example.com/orders
+          next: https://api.example.com/orders?page=2  
+
+    SingleOrder:
+      value:
+        meta:
+          page: 1
+          pageSize: 10
+          totalPages: 2
+        data:                    
+          id: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+          sender: Jane Doe
+          recipient: John Doe
+          subjectOf: Meeting Later
+          text: Please meet me at the market.
+          dateSent: '2018-04-25T18:00:30+01:00'
+          dateReceived: '2018-04-25T18:00:30+01:00'
+        links:
+          self: https://api.example.com/orders      
+
+    Order:
+      value:              
+        sender: Jane Doe
+        recipient: John Doe
+        subjectOf: Meeting Later
+        text: Please meet me at the market.                 
+
+  securitySchemes:
+    apiKeys:
+      type: apiKey
+      name: api-key
+      in: header
+
+  parameters:
+
+    OrderId: 
+        name: orderId
+        in: path
+        required: true
+        description: The ID of the order to retrieve.
+        schema:
+          type: string
+          format: uuid
+          minLength: 36
+          maxLength: 36     
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$     
+        example: 1725ff48-ab45-4bb5-9d02-88745177dedb             
+
+  schemas:
+
+    WrapperResponseCollection:
+      description: This is a generic request/response wrapper which contains both data and links which serve as hypermedia controls (HATEOAS).
+      type: object
+      required:
+        - meta
+        - data
+        - links
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'             
+        data:
+          description: The wrapper for a collection is an array of objects.
+          type: array
+          maxItems: 100
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Order'            
+        links:
+          $ref: '#/components/schemas/LinksPagination'
+      xml:
+        name: data
+
+    WrapperResponseObject:
+      description: This is a generic request/response wrapper which contains both data and links which serve as hypermedia controls (HATEOAS).
+      type: object
+      required:
+        - meta
+        - data
+        - links      
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'        
+        data:
+          $ref: '#/components/schemas/Order'                   
+        links:
+          $ref: '#/components/schemas/LinksSelf'                   
+      xml:
+        name: data    
+
+    LinksSelf:
+      type: object
+      description: A link to reference each order.
+      required:
+        - self
+      properties:
+        self:
+          type: string
+          description: A URL to order returned.
+          format: uri
+          minLength: 10
+          maxLength: 2048   
+
+    Meta:
+      type: object
+      description: The metadata for each response.
+      required:
+        - page
+        - totalPages
+      properties:
+        page:
+          type: integer
+          description: The page represented in response.
+          minLength: 1
+          maxLength: 1000    
+        pageSize:
+          type: integer
+          minLength: 1
+          maxLength: 1000  
+          description: The overall page size limits.
+        totalPages:
+          type: integer
+          description: The total number of pages.
+          minLength: 1
+          maxLength: 1000                                
+                  
+    LinksPagination:
+      type: object
+      description: The handling of each page.
+      properties:
+        next:
+          type: string
+          description: The next page in results.
+          format: uri
+          minLength: 10
+          maxLength: 2048            
+        prev:
+          type: string
+          description: The previous page in results.
+          format: uri
+          minLength: 10
+          maxLength: 2048           
+
+    Order:
+      type: object
+      description: A Schema.org compliant order object.
+      xml:
+        name: order
+      required:
+        - identifier
+        - orderNumber
+        - orderStatus
+        - orderDate
+        - customer
+        - orderedItems
+      properties:
+        identifier:
+          type: string
+          format: uuid
+          description: Unique identifier for the order.
+          minLength: 36
+          maxLength: 36
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+          example: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e      
+        orderNumber:
+          type: integer
+          description: Number for the order.
+          minLength: 10
+          maxLength: 10
+          example: 1001
+        orderStatus:
+          type: string
+          description: The status of the order
+          minLength: 10
+          maxLength: 250          
+          example: Processing
+        orderDate:
+          type: string
+          description: The date when the order was placed.
+          minLength: 10
+          maxLength: 10           
+          example: '2018-04-25T18:00:30+01:00'  
+        customer:
+          type: string
+          description: The timezone of the order in the [IANA Time Zone Database format](https://www.iana.org/time-zones).
+        orderedItems:
+          type: string
+          description: The timezone of the order in the [IANA Time Zone Database format](https://www.iana.org/time-zones).                                
+
+    Problem:
+      type: object
+      description: This is a Problem Details for HTTP APIs object.
+      required:
+        - title
+        - status
+      xml:
+        name: problem
+        namespace: urn:ietf:rfc:7807
+      properties:
+        type:
+          type: string
+          description: A URI reference that identifies the problem type
+          example: https://example.com/probs/out-of-credit
+          minLength: 10
+          maxLength: 2048            
+        title:
+          type: string
+          description: A short, human-readable summary of the problem type
+          example: You do not have enough credit.
+          minLength: 10
+          maxLength: 250            
+        detail:
+          type: string
+          description: A human-readable explanation specific to this occurrence of the problem
+          example: Your current balance is 30, but that costs 50.
+          minLength: 10
+          maxLength: 1000            
+        instance:
+          type: string
+          description: A URI reference that identifies the specific occurrence of the problem
+          example: /account/12345/msgs/abc
+          minLength: 10
+          maxLength: 250            
+        status:
+          type: integer
+          description: The HTTP status code
+          example: 400        
+          minLength: 3
+          maxLength: 3                 
+
+  headers:
+
+    RateLimit:
+      description: |
+        The RateLimit header communicates quota policies. It contains a `limit` to
+        convey the expiring limit, `remaining` to convey the remaining quota units,
+        and `reset` to convey the time window reset time.
+      schema:
+        type: string
+        minLength: 10
+        maxLength: 250  
+        example: limit=10, remaining=0, reset=10
+
+    Retry-After:
+      description: | 
+        The Retry-After header indicates how long the user agent should wait before making a follow-up request. 
+        The value is in seconds and can be an integer or a date in the future. 
+        If the value is an integer, it indicates the number of seconds to wait. 
+        If the value is a date, it indicates the time at which the user agent should make a follow-up request. 
+      schema:
+        type: string
+        minLength: 10
+        maxLength: 250          
+      examples:
+        integer:
+          value: '120'
+          summary: Retry after 120 seconds
+        date:
+          value: 'Fri, 31 Dec 2021 23:59:59 GMT'
+          summary: Retry after the specified date
+
+  responses:
+
+    BadRequest:
+      description: Bad Request
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/bad-request
+            title: Bad Request
+            status: 400
+            detail: The request is invalid or missing required parameters.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/bad-request
+            title: Bad Request
+            status: 400
+            detail: The request is invalid or missing required parameters.
+
+    Conflict:
+      description: Conflict
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/conflict
+            title: Conflict
+            status: 409
+            detail: There is a conflict with an existing resource.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/conflict
+            title: Conflict
+            status: 409
+            detail: There is a conflict with an existing resource.
+
+    Forbidden:
+      description: Forbidden
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/forbidden
+            title: Forbidden
+            status: 403
+            detail: Access is forbidden with the provided credentials.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/forbidden
+            title: Forbidden
+            status: 403
+            detail: Access is forbidden with the provided credentials.
+
+    InternalServerError:
+      description: Internal Server Error
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/internal-server-error
+            title: Internal Server Error
+            status: 500
+            detail: An unexpected error occurred.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/internal-server-error
+            title: Internal Server Error
+            status: 500
+            detail: An unexpected error occurred.
+
+    NotFound:
+      description: Not Found
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/not-found
+            title: Not Found
+            status: 404
+            detail: The requested resource was not found.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/not-found
+            title: Not Found
+            status: 404
+            detail: The requested resource was not found.
+
+    TooManyRequests:
+      description: Too Many Requests
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+        Retry-After:
+          $ref: '#/components/headers/Retry-After'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/too-many-requests
+            title: Too Many Requests
+            status: 429
+            detail: You have exceeded the rate limit.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/too-many-requests
+            title: Too Many Requests
+            status: 429
+            detail: You have exceeded the rate limit.
+
+    Unauthorized:
+      description: Unauthorized
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/unauthorized
+            title: Unauthorized
+            status: 401
+            detail: You do not have the necessary permissions.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/unauthorized
+            title: Unauthorized
+            status: 401
+            detail: You do not have the necessary permissions.
