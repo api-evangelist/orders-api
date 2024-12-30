@@ -478,11 +478,87 @@ components:
           maxLength: 10           
           example: '2018-04-25T18:00:30+01:00'  
         customer:
-          type: string
-          description: The timezone of the order in the [IANA Time Zone Database format](https://www.iana.org/time-zones).
+          $ref: '#/components/schemas/Person'
         orderedItems:
-          type: string
+          type: array
+          maxItems: 25
+          minItems: 1          
           description: The timezone of the order in the [IANA Time Zone Database format](https://www.iana.org/time-zones).                                
+          items:
+            $ref: '#/components/schemas/Product'
+
+    Product:
+      type: object
+      description: A Schema.org compliant product object.
+      xml:
+        name: product
+      required:
+        - identifier
+        - name
+        - description
+      properties:
+        identifier:
+          type: string
+          format: uuid
+          description: Unique identifier for the product.
+          minLength: 36
+          maxLength: 36
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+          example: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e      
+        name:
+          type: integer
+          description: Name of the product.
+          minLength: 10
+          maxLength: 10
+          example: Example Product
+        descripton:
+          type: string
+          description: The description of the product.
+          minLength: 10
+          maxLength: 2500          
+          example: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        image:
+          type: string
+          description: An image for the organization.
+          minLength: 10
+          maxLength: 2048          
+          example: 'http://example.com/image.jpg'   
+
+    Person:
+      type: object
+      description: A Schema.org compliant person object.
+      xml:
+        name: person
+      required:
+        - identifier
+        - name
+      properties:
+        identifier:
+          type: string
+          format: uuid
+          description: Unique identifier for the person.
+          minLength: 36
+          maxLength: 36
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+          example: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e      
+        name:
+          type: integer
+          description: Name of the person.
+          minLength: 10
+          maxLength: 10
+          example: Kin Lane
+        descripton:
+          type: string
+          description: The description of the person.
+          minLength: 10
+          maxLength: 2500          
+          example: The peson behind API Evangelist.
+        email:
+          type: string
+          description: An email for the person.
+          minLength: 10
+          maxLength: 2048          
+          example: 'info@example.com'              
 
     Problem:
       type: object
