@@ -1,24 +1,23 @@
 naftiko: 1.0.0-alpha2
 info:
-  label: Orders API
-  description: This is a template APIs.json for a orders API, to be used in storytelling, training, and knowledge bases.
+  label: Orders API — Orders
+  description: 'Orders API — Orders. 6 operations. Lead operation: Retrieves Orders. Self-contained Naftiko capability covering
+    one Orders Api business surface.'
   tags:
+  - Orders Api
   - Orders
-  - Api
-  - API
-  created: '2026-05-06'
-  modified: '2026-05-06'
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ORDERS_API_API_KEY: ORDERS_API_API_KEY
 capability:
   consumes:
   - type: http
-    namespace: orders-api
+    namespace: orders-orders
     baseUri: https://api.example.com
-    description: Orders API HTTP API.
-    authentication:
-      type: apikey
-      in: header
-      name: api-key
-      value: '{{ORDERS_API_TOKEN}}'
+    description: Orders API — Orders business capability. Self-contained, no shared references.
     resources:
     - name: orders
       path: /orders
@@ -39,7 +38,13 @@ capability:
         - name: result
           type: object
           value: $.
-    - name: orders-orderid
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: orders-orderId
       path: /orders/{orderId}
       operations:
       - name: getorder
@@ -58,6 +63,12 @@ capability:
         - name: result
           type: object
           value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
       - name: deleteorder
         method: DELETE
         description: Orders Delete Order
@@ -66,7 +77,7 @@ capability:
         - name: result
           type: object
           value: $.
-    - name: orders-orderid-cancle
+    - name: orders-orderId-cancle
       path: /orders/{orderId}/cancle
       operations:
       - name: sendorder
@@ -77,139 +88,154 @@ capability:
         - name: result
           type: object
           value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: api-key
+      value: '{{env.ORDERS_API_API_KEY}}'
+      placement: header
   exposes:
   - type: rest
+    namespace: orders-orders-rest
     port: 8080
-    namespace: orders-api-rest
-    description: REST adapter for Orders API.
+    description: REST adapter for Orders API — Orders. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
     resources:
-    - path: /orders
-      name: getorders
+    - path: /v1/orders
+      name: orders
+      description: REST surface for orders.
       operations:
       - method: GET
         name: getorders
         description: Retrieves Orders
-        call: orders-api.getorders
+        call: orders-orders.getorders
         outputParameters:
         - type: object
           mapping: $.
-    - path: /orders
-      name: createorder
-      operations:
       - method: POST
         name: createorder
         description: Orders Create Order
-        call: orders-api.createorder
+        call: orders-orders.createorder
+        with:
+          body: rest.body
         outputParameters:
         - type: object
           mapping: $.
-    - path: /orders/{orderId}
-      name: getorder
+    - path: /v1/orders/{orderid}
+      name: orders-orderid
+      description: REST surface for orders-orderId.
       operations:
       - method: GET
         name: getorder
         description: Orders Retrieve Order
-        call: orders-api.getorder
+        call: orders-orders.getorder
         outputParameters:
         - type: object
           mapping: $.
-    - path: /orders/{orderId}
-      name: updateorder
-      operations:
       - method: PUT
         name: updateorder
         description: Orders Update Order
-        call: orders-api.updateorder
+        call: orders-orders.updateorder
+        with:
+          body: rest.body
         outputParameters:
         - type: object
           mapping: $.
-    - path: /orders/{orderId}
-      name: deleteorder
-      operations:
       - method: DELETE
         name: deleteorder
         description: Orders Delete Order
-        call: orders-api.deleteorder
+        call: orders-orders.deleteorder
         outputParameters:
         - type: object
           mapping: $.
-    - path: /orders/{orderId}/cancle
-      name: sendorder
+    - path: /v1/orders/{orderid}/cancle
+      name: orders-orderid-cancle
+      description: REST surface for orders-orderId-cancle.
       operations:
       - method: PUT
         name: sendorder
         description: Orders Cancel Order
-        call: orders-api.sendorder
+        call: orders-orders.sendorder
+        with:
+          body: rest.body
         outputParameters:
         - type: object
           mapping: $.
   - type: mcp
+    namespace: orders-orders-mcp
     port: 9090
-    namespace: orders-api-mcp
     transport: http
-    description: MCP adapter for Orders API for AI agent use.
+    description: MCP adapter for Orders API — Orders. One tool per consumed operation, routed inline through this capability's
+      consumes block.
     tools:
-    - name: getorders
+    - name: retrieves-orders
       description: Retrieves Orders
       hints:
         readOnly: true
         destructive: false
         idempotent: true
-      call: orders-api.getorders
+      call: orders-orders.getorders
       outputParameters:
       - type: object
         mapping: $.
-    - name: createorder
+    - name: orders-create-order
       description: Orders Create Order
       hints:
         readOnly: false
         destructive: false
         idempotent: false
-      call: orders-api.createorder
+      call: orders-orders.createorder
+      with:
+        body: tools.body
       outputParameters:
       - type: object
         mapping: $.
-    - name: getorder
+    - name: orders-retrieve-order
       description: Orders Retrieve Order
       hints:
         readOnly: true
         destructive: false
         idempotent: true
-      call: orders-api.getorder
+      call: orders-orders.getorder
       outputParameters:
       - type: object
         mapping: $.
-    - name: updateorder
+    - name: orders-update-order
       description: Orders Update Order
       hints:
         readOnly: false
         destructive: false
         idempotent: true
-      call: orders-api.updateorder
+      call: orders-orders.updateorder
+      with:
+        body: tools.body
       outputParameters:
       - type: object
         mapping: $.
-    - name: deleteorder
+    - name: orders-delete-order
       description: Orders Delete Order
       hints:
         readOnly: false
         destructive: true
         idempotent: true
-      call: orders-api.deleteorder
+      call: orders-orders.deleteorder
       outputParameters:
       - type: object
         mapping: $.
-    - name: sendorder
+    - name: orders-cancel-order
       description: Orders Cancel Order
       hints:
         readOnly: false
         destructive: false
         idempotent: true
-      call: orders-api.sendorder
+      call: orders-orders.sendorder
+      with:
+        body: tools.body
       outputParameters:
       - type: object
         mapping: $.
-binds:
-- namespace: env
-  keys:
-    ORDERS_API_TOKEN: ORDERS_API_TOKEN
