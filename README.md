@@ -1,42 +1,42 @@
 # Orders (api-evangelist-orders)
+
 This is a template APIs.json for a orders API, to be used in storytelling, training, and knowledge bases.
 
-**URL:** [Visit APIs.json URL](http://example.com/apis.json)
+**APIs.json:** [http://example.com/apis.json](http://example.com/apis.json)
 
-## Scope
+## Tags
 
-- **Type:** Template 
-- **Position:** Consuming 
-- **Access:** 3rd-Party 
-
-## Tags:
-
- - Application Programming Interface, API, Orders
+- Application Programming Interface
+- Orders
 
 ## Timestamps
 
-- **Created:** 2024-12-29 
-- **Modified:** 2024-12-29 
+- **Created:** 2024-12-29
+- **Modified:** 2026-05-19
 
 ## APIs
 
 ### Orders API.
+
 A demo orders API.
 
-**Human URL:** [https://example.com/apis.yml](https://example.com/apis.yml)
+- **Human URL:** [https://example.com/apis.yml](https://example.com/apis.yml)
+- **Base URL:** `http://apis.example.com`
 
+#### Tags
 
-#### Tags:
-
- - API, Application Programming Interface, Orders
+- Application Programming Interface
+- Orders
 
 #### Properties
 
 - [Documentation](http://example.com/documentation)
-- [OpenAPI](openapi/orders-api-openapi.yml)
+- [OpenAPI](openapi/orders-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/orders-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/orders-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 - [Authentication](http://example.com/authentication)
-- [GettingStarted](http://example.com/getting-started)
-- [ChangeLog](http://example.com/change-log)
+- [Getting Started](http://example.com/getting-started)
+- [Changelog](http://example.com/change-log)
 
 ## Common Properties
 
@@ -45,5 +45,4 @@ A demo orders API.
 ## Maintainers
 
 **FN:** API Evangelist
-
 **Email:** info@apievangelist.com
