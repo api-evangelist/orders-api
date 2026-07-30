@@ -2,7 +2,20 @@ aid: api-evangelist-orders
 name: Orders
 kind: template
 description: This is a template APIs.json for a orders API, to be used in storytelling, training, and knowledge bases.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/orders-api.png
 tags:
   - Application Programming Interface
   - Orders
@@ -11,29 +24,24 @@ modified: '2026-05-19'
 url: http://example.com/apis.json
 specificationVersion: '0.19'
 apis:
-  - aid: api-evangelist-orders:orders-api
-    name: Orders API.
-    description: A demo orders API.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://example.com/apis.yml
-    baseURL: http://apis.example.com
-    tags:
-      - Application Programming Interface
-      - Orders
-    properties:
-      - type: Documentation
-        url: http://example.com/documentation
-      - type: OpenAPI
-        url: openapi/orders-api-openapi.yml
-      - type: Authentication
-        url: http://example.com/authentication
-      - type: GettingStarted
-        url: http://example.com/getting-started
-      - type: ChangeLog
-        url: http://example.com/change-log
-    contact:
-      - FN: API Evangelist
-        email: info@apievangelist.com
+- aid: orders-api:orders-api-orders-api
+  name: Orders Orders API
+  description: Placing and managing of orders placed for products.
+  humanURL: https://example.com/apis.yml
+  baseURL: http://apis.example.com
+  tags:
+  - Orders
+  properties:
+  - type: OpenAPI
+    url: openapi/orders-api-orders-api-openapi.yml
+  - type: Documentation
+    url: http://example.com/documentation
+  - type: Authentication
+    url: http://example.com/authentication
+  - type: GettingStarted
+    url: http://example.com/getting-started
+  - type: ChangeLog
+    url: http://example.com/change-log
 common:
   - type: AgenticAccess
     url: agentic-access/orders-api-agentic-access.yml
