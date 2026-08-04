@@ -1,0 +1,14 @@
+{
+  "provider": "orders-api",
+  "sources": [
+    "orders-api-orders-api-openapi.yml"
+  ],
+  "outputs": [
+    "orders-api-orders-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
