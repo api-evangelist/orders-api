@@ -1,4 +1,4 @@
-aid: api-evangelist-orders
+aid: orders-api
 name: Orders
 kind: template
 description: This is a template APIs.json for a orders API, to be used in storytelling, training, and knowledge bases.
