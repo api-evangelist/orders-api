@@ -1,9 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Orders API
-  description: 'This is a template APIs.json for a orders API, to be used in storytelling, training, and knowledge bases.
-
-    '
+  description: This is a template APIs.json for a orders API, to be used in storytelling, training, and knowledge bases.
   version: 0.1.0
   contact:
     name: API Evangelist
@@ -19,9 +17,7 @@ servers:
   description: Production
 tags:
 - name: Orders
-  description: 'Placing and managing of orders placed for products.
-
-    '
+  description: Placing and managing of orders placed for products.
 paths:
   /orders:
     get:
@@ -259,278 +255,7 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  parameters:
-    OrderId:
-      name: orderId
-      in: path
-      required: true
-      description: The ID of the order to retrieve.
-      schema:
-        type: string
-        format: uuid
-        minLength: 36
-        maxLength: 36
-        pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
-      example: 1725ff48-ab45-4bb5-9d02-88745177dedb
-  responses:
-    NotFound:
-      description: Not Found
-      headers:
-        RateLimit:
-          $ref: '#/components/headers/RateLimit'
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/not-found
-            title: Not Found
-            status: 404
-            detail: The requested resource was not found.
-        application/problem+xml:
-          schema:
-            $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/not-found
-            title: Not Found
-            status: 404
-            detail: The requested resource was not found.
-    InternalServerError:
-      description: Internal Server Error
-      headers:
-        RateLimit:
-          $ref: '#/components/headers/RateLimit'
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/internal-server-error
-            title: Internal Server Error
-            status: 500
-            detail: An unexpected error occurred.
-        application/problem+xml:
-          schema:
-            $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/internal-server-error
-            title: Internal Server Error
-            status: 500
-            detail: An unexpected error occurred.
-    Forbidden:
-      description: Forbidden
-      headers:
-        RateLimit:
-          $ref: '#/components/headers/RateLimit'
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/forbidden
-            title: Forbidden
-            status: 403
-            detail: Access is forbidden with the provided credentials.
-        application/problem+xml:
-          schema:
-            $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/forbidden
-            title: Forbidden
-            status: 403
-            detail: Access is forbidden with the provided credentials.
-    Unauthorized:
-      description: Unauthorized
-      headers:
-        RateLimit:
-          $ref: '#/components/headers/RateLimit'
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/unauthorized
-            title: Unauthorized
-            status: 401
-            detail: You do not have the necessary permissions.
-        application/problem+xml:
-          schema:
-            $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/unauthorized
-            title: Unauthorized
-            status: 401
-            detail: You do not have the necessary permissions.
-    TooManyRequests:
-      description: Too Many Requests
-      headers:
-        RateLimit:
-          $ref: '#/components/headers/RateLimit'
-        Retry-After:
-          $ref: '#/components/headers/Retry-After'
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/too-many-requests
-            title: Too Many Requests
-            status: 429
-            detail: You have exceeded the rate limit.
-        application/problem+xml:
-          schema:
-            $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/too-many-requests
-            title: Too Many Requests
-            status: 429
-            detail: You have exceeded the rate limit.
-    Conflict:
-      description: Conflict
-      headers:
-        RateLimit:
-          $ref: '#/components/headers/RateLimit'
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/conflict
-            title: Conflict
-            status: 409
-            detail: There is a conflict with an existing resource.
-        application/problem+xml:
-          schema:
-            $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/conflict
-            title: Conflict
-            status: 409
-            detail: There is a conflict with an existing resource.
-    BadRequest:
-      description: Bad Request
-      headers:
-        RateLimit:
-          $ref: '#/components/headers/RateLimit'
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/bad-request
-            title: Bad Request
-            status: 400
-            detail: The request is invalid or missing required parameters.
-        application/problem+xml:
-          schema:
-            $ref: '#/components/schemas/Problem'
-          example:
-            type: https://example.com/errors/bad-request
-            title: Bad Request
-            status: 400
-            detail: The request is invalid or missing required parameters.
   schemas:
-    Meta:
-      type: object
-      description: The metadata for each response.
-      required:
-      - page
-      - totalPages
-      properties:
-        page:
-          type: integer
-          description: The page represented in response.
-          minLength: 1
-          maxLength: 1000
-        pageSize:
-          type: integer
-          minLength: 1
-          maxLength: 1000
-          description: The overall page size limits.
-        totalPages:
-          type: integer
-          description: The total number of pages.
-          minLength: 1
-          maxLength: 1000
-    LinksPagination:
-      type: object
-      description: The handling of each page.
-      properties:
-        next:
-          type: string
-          description: The next page in results.
-          format: uri
-          minLength: 10
-          maxLength: 2048
-        prev:
-          type: string
-          description: The previous page in results.
-          format: uri
-          minLength: 10
-          maxLength: 2048
-    WrapperResponseObject:
-      description: This is a generic request/response wrapper which contains both data and links which serve as hypermedia controls (HATEOAS).
-      type: object
-      required:
-      - meta
-      - data
-      - links
-      properties:
-        meta:
-          $ref: '#/components/schemas/Meta'
-        data:
-          $ref: '#/components/schemas/Order'
-        links:
-          $ref: '#/components/schemas/LinksSelf'
-      xml:
-        name: data
-    LinksSelf:
-      type: object
-      description: A link to reference each order.
-      required:
-      - self
-      properties:
-        self:
-          type: string
-          description: A URL to order returned.
-          format: uri
-          minLength: 10
-          maxLength: 2048
-    Person:
-      type: object
-      description: A Schema.org compliant person object.
-      xml:
-        name: person
-      required:
-      - identifier
-      - name
-      properties:
-        identifier:
-          type: string
-          format: uuid
-          description: Unique identifier for the person.
-          minLength: 36
-          maxLength: 36
-          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
-          example: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-        name:
-          type: integer
-          description: Name of the person.
-          minLength: 10
-          maxLength: 10
-          example: Kin Lane
-        descripton:
-          type: string
-          description: The description of the person.
-          minLength: 10
-          maxLength: 2500
-          example: The peson behind API Evangelist.
-        email:
-          type: string
-          description: An email for the person.
-          minLength: 10
-          maxLength: 2048
-          example: info@example.com
     Order:
       type: object
       description: A Schema.org compliant order object.
@@ -579,7 +304,42 @@ components:
           description: The timezone of the order in the [IANA Time Zone Database format](https://www.iana.org/time-zones).
           items:
             $ref: '#/components/schemas/Product'
-    WrapperResponseCollection:
+    Person:
+      type: object
+      description: A Schema.org compliant person object.
+      xml:
+        name: person
+      required:
+      - identifier
+      - name
+      properties:
+        identifier:
+          type: string
+          format: uuid
+          description: Unique identifier for the person.
+          minLength: 36
+          maxLength: 36
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+          example: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+        name:
+          type: integer
+          description: Name of the person.
+          minLength: 10
+          maxLength: 10
+          example: Kin Lane
+        descripton:
+          type: string
+          description: The description of the person.
+          minLength: 10
+          maxLength: 2500
+          example: The peson behind API Evangelist.
+        email:
+          type: string
+          description: An email for the person.
+          minLength: 10
+          maxLength: 2048
+          example: info@example.com
+    WrapperResponseObject:
       description: This is a generic request/response wrapper which contains both data and links which serve as hypermedia controls (HATEOAS).
       type: object
       required:
@@ -590,16 +350,47 @@ components:
         meta:
           $ref: '#/components/schemas/Meta'
         data:
-          description: The wrapper for a collection is an array of objects.
-          type: array
-          maxItems: 100
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/Order'
+          $ref: '#/components/schemas/Order'
         links:
-          $ref: '#/components/schemas/LinksPagination'
+          $ref: '#/components/schemas/LinksSelf'
       xml:
         name: data
+    Product:
+      type: object
+      description: A Schema.org compliant product object.
+      xml:
+        name: product
+      required:
+      - identifier
+      - name
+      - description
+      properties:
+        identifier:
+          type: string
+          format: uuid
+          description: Unique identifier for the product.
+          minLength: 36
+          maxLength: 36
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+          example: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+        name:
+          type: integer
+          description: Name of the product.
+          minLength: 10
+          maxLength: 10
+          example: Example Product
+        descripton:
+          type: string
+          description: The description of the product.
+          minLength: 10
+          maxLength: 2500
+          example: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        image:
+          type: string
+          description: An image for the organization.
+          minLength: 10
+          maxLength: 2048
+          example: http://example.com/image.jpg
     Problem:
       type: object
       description: This is a Problem Details for HTTP APIs object.
@@ -640,42 +431,77 @@ components:
           example: 400
           minLength: 3
           maxLength: 3
-    Product:
+    LinksPagination:
       type: object
-      description: A Schema.org compliant product object.
-      xml:
-        name: product
-      required:
-      - identifier
-      - name
-      - description
+      description: The handling of each page.
       properties:
-        identifier:
+        next:
           type: string
-          format: uuid
-          description: Unique identifier for the product.
-          minLength: 36
-          maxLength: 36
-          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
-          example: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
-        name:
-          type: integer
-          description: Name of the product.
-          minLength: 10
-          maxLength: 10
-          example: Example Product
-        descripton:
-          type: string
-          description: The description of the product.
-          minLength: 10
-          maxLength: 2500
-          example: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        image:
-          type: string
-          description: An image for the organization.
+          description: The next page in results.
+          format: uri
           minLength: 10
           maxLength: 2048
-          example: http://example.com/image.jpg
+        prev:
+          type: string
+          description: The previous page in results.
+          format: uri
+          minLength: 10
+          maxLength: 2048
+    LinksSelf:
+      type: object
+      description: A link to reference each order.
+      required:
+      - self
+      properties:
+        self:
+          type: string
+          description: A URL to order returned.
+          format: uri
+          minLength: 10
+          maxLength: 2048
+    WrapperResponseCollection:
+      description: This is a generic request/response wrapper which contains both data and links which serve as hypermedia controls (HATEOAS).
+      type: object
+      required:
+      - meta
+      - data
+      - links
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
+          description: The wrapper for a collection is an array of objects.
+          type: array
+          maxItems: 100
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Order'
+        links:
+          $ref: '#/components/schemas/LinksPagination'
+      xml:
+        name: data
+    Meta:
+      type: object
+      description: The metadata for each response.
+      required:
+      - page
+      - totalPages
+      properties:
+        page:
+          type: integer
+          description: The page represented in response.
+          minLength: 1
+          maxLength: 1000
+        pageSize:
+          type: integer
+          minLength: 1
+          maxLength: 1000
+          description: The overall page size limits.
+        totalPages:
+          type: integer
+          description: The total number of pages.
+          minLength: 1
+          maxLength: 1000
   examples:
     SingleOrder:
       value:
@@ -716,6 +542,163 @@ components:
         links:
           self: https://api.example.com/orders
           next: https://api.example.com/orders?page=2
+  responses:
+    InternalServerError:
+      description: Internal Server Error
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/internal-server-error
+            title: Internal Server Error
+            status: 500
+            detail: An unexpected error occurred.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/internal-server-error
+            title: Internal Server Error
+            status: 500
+            detail: An unexpected error occurred.
+    TooManyRequests:
+      description: Too Many Requests
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+        Retry-After:
+          $ref: '#/components/headers/Retry-After'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/too-many-requests
+            title: Too Many Requests
+            status: 429
+            detail: You have exceeded the rate limit.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/too-many-requests
+            title: Too Many Requests
+            status: 429
+            detail: You have exceeded the rate limit.
+    BadRequest:
+      description: Bad Request
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/bad-request
+            title: Bad Request
+            status: 400
+            detail: The request is invalid or missing required parameters.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/bad-request
+            title: Bad Request
+            status: 400
+            detail: The request is invalid or missing required parameters.
+    Forbidden:
+      description: Forbidden
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/forbidden
+            title: Forbidden
+            status: 403
+            detail: Access is forbidden with the provided credentials.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/forbidden
+            title: Forbidden
+            status: 403
+            detail: Access is forbidden with the provided credentials.
+    NotFound:
+      description: Not Found
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/not-found
+            title: Not Found
+            status: 404
+            detail: The requested resource was not found.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/not-found
+            title: Not Found
+            status: 404
+            detail: The requested resource was not found.
+    Unauthorized:
+      description: Unauthorized
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/unauthorized
+            title: Unauthorized
+            status: 401
+            detail: You do not have the necessary permissions.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/unauthorized
+            title: Unauthorized
+            status: 401
+            detail: You do not have the necessary permissions.
+    Conflict:
+      description: Conflict
+      headers:
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/conflict
+            title: Conflict
+            status: 409
+            detail: There is a conflict with an existing resource.
+        application/problem+xml:
+          schema:
+            $ref: '#/components/schemas/Problem'
+          example:
+            type: https://example.com/errors/conflict
+            title: Conflict
+            status: 409
+            detail: There is a conflict with an existing resource.
   headers:
     Retry-After:
       description: "The Retry-After header indicates how long the user agent should wait before making a follow-up request. \nThe value is in seconds and can be an integer or a date in the future. \nIf the value is an integer, it indicates the number of seconds to wait. \nIf the value is a date, it indicates the time at which the user agent should make a follow-up request. \n"
@@ -743,6 +726,19 @@ components:
         minLength: 10
         maxLength: 250
         example: limit=10, remaining=0, reset=10
+  parameters:
+    OrderId:
+      name: orderId
+      in: path
+      required: true
+      description: The ID of the order to retrieve.
+      schema:
+        type: string
+        format: uuid
+        minLength: 36
+        maxLength: 36
+        pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+      example: 1725ff48-ab45-4bb5-9d02-88745177dedb
   securitySchemes:
     apiKeys:
       type: apiKey
