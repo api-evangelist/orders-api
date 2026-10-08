@@ -62,6 +62,12 @@ apis:
   - type: ChangeLog
     url: http://example.com/change-log
 common:
+- type: Plans
+  url: plans/orders-api-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/orders-api-rate-limits.yml
+- type: FinOps
+  url: finops/orders-api-finops.yml
 - type: AgenticAccess
   url: agentic-access/orders-api-agentic-access.yml
 - type: Authentication
